@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from json import JSONDecodeError
 from typing import Optional
 
@@ -43,6 +43,7 @@ class Somiac:
                 "date": datetime.datetime(2022, 1, 20, 21, 1, 49, 634746)
             }
         """
+        logger.debug('Getting covid calls statistic data')
         _date = date.strftime('%Y-%m-%d')
         logger.debug(f'Getting covid calls statistic on {_date}')
         url = 'http://' + self.host \

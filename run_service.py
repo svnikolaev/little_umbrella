@@ -64,7 +64,7 @@ def main():
             if module.joinpath('service.py').exists()  # which has "service.py"
         ]
         print('\n' + 'available services:' + '\n  '
-              + '\n  '.join(modules) + '\n')
+              + '\n  '.join(sorted(modules)) + '\n')
         return
 
     init_logger(args.service, verbose=args.verbose, nologfile=args.nologfile)

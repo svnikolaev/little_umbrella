@@ -11,7 +11,8 @@
 └── project_tasks/ - корень проекта
     |
     ├── run_service.py - модуль запуска задач
-    ├── app_logger.py - модуль конфигурирования логгер
+    ├── app_logger.py - модуль конфигурирования логера
+    ├── utils.py - модуль со вспомогательными алгоритмами
     ├── logs/ - локальная папка с логами
     │
     ├── connectors/ - коннекторы до ИС
@@ -79,6 +80,7 @@ available services:
 
 ```sh
 $ python .\run_service.py hello_land
+ts=2022-01-21T23:32:22 level=INFO msg="basedir: D:\dev\cit.sakhalin\osa\launch_with_params"
 ts=2022-01-21T23:32:22 level=INFO msg="service services.hello_land.service logger.info testing: CONNECTOR TEST STRING"
 ```
 
@@ -97,4 +99,10 @@ Traceback (most recent call last):
     a = 10 / 0  # intentional error FOR TESTING purpose
 ZeroDivisionError: division by zero
 "
+```
+
+## Запуск с помощью Docker
+
+```sh
+docker run -it --rm --name run_service -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3.10.2-slim-buster python run_service.py a_check_geois_health
 ```

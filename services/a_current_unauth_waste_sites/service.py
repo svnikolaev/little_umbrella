@@ -56,9 +56,7 @@ def get_current_info(config: dict) -> str:
     date_from = datetime(year=current_year, month=1, day=1)
     one_day = timedelta(days=1)
 
-    a_geois = Geois(url=config['geois'].get('url'),
-                    client_id=config['geois'].get('client_id'),
-                    client_secret=config['geois'].get('client_secret'),
+    a_geois = Geois(**config['geois'],
                     user_agent=config['general'].get('user_agent'))
 
     # get first pack of data from 01.01.CURRENT_YEAR to 30.06.CURRENT_YEAR
@@ -123,10 +121,9 @@ def main(config: dict) -> None:
 
 
 if __name__ == "__main__":
-    import subprocess
-    run_service = BASEDIR.joinpath('run_service.py')
-    service = Path(__file__).parent.name
-    args = '-nvt'  # no create logfile, verbose, testing
-    print(f'TEST RUN of service "{service}" with args "{args}":\n')
-    subprocess.call(['python', run_service, args, service])
-    print('\nTEST RUN finished')
+    from utils import via_run_service
+    via_run_service(
+        BASEDIR,
+        service_name=Path(__file__).parent.name,
+        args='nt'
+    )

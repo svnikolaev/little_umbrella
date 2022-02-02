@@ -18,9 +18,7 @@ logger = logging.getLogger(__name__)
 def main(config: dict) -> None:
     logger.debug(f'Config dict: {config}')
 
-    a_geois = Geois(url=config['geois'].get('url'),
-                    client_id=config['geois'].get('client_id'),
-                    client_secret=config['geois'].get('client_secret'),
+    a_geois = Geois(**config['geois'],
                     user_agent=config['general'].get('user_agent'))
 
     try:
@@ -45,10 +43,9 @@ def main(config: dict) -> None:
 
 
 if __name__ == "__main__":
-    import subprocess
-    run_service = BASEDIR.joinpath('run_service.py')
-    service = Path(__file__).parent.name
-    args = '-nvt'  # no create logfile, verbose, testing
-    print(f'TEST RUN of service "{service}" with args "{args}":\n')
-    subprocess.call(['python', run_service, args, service])
-    print('\nTEST RUN finished')
+    from utils import via_run_service
+    via_run_service(
+        BASEDIR,
+        service_name=Path(__file__).parent.name,
+        args='nt'
+    )
