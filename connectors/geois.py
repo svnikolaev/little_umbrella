@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 from typing import Optional
 
-import requests
+from connectors.zeal_request import request_with_retries as request
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ class Geois:
             'Content-Type': 'application/x-www-form-urlencoded'
         }
         logger.debug('Getting access token')
-        r = requests.request("POST", url, headers=headers, data=payload)
+        r = request("POST", url, headers=headers, data=payload)
         r.raise_for_status()
         return r.json().get('access_token')
 
@@ -49,7 +49,7 @@ class Geois:
             'User-Agent': self.user_agent,
             'Authorization': f'Bearer {access_token}'
         }
-        r = requests.request('GET', url, headers=headers)
+        r = request('GET', url, headers=headers)
         r.raise_for_status()
         return r.json()
 
@@ -60,7 +60,7 @@ class Geois:
             'Host': self.host,
             'User-Agent': self.user_agent,
         }
-        r = requests.request('GET', url, headers=headers)
+        r = request('GET', url, headers=headers)
         if r.status_code == 200 and r.text == 'Healthy':
             return True
         return False
@@ -94,6 +94,6 @@ class Geois:
             f'Getting unauth waste disposal sites from {date_from.date()} '
             f'to {date_to.date()}'
         )
-        r = requests.request('POST', url, headers=headers, data=payload)
+        r = request('POST', url, headers=headers, data=payload)
         r.raise_for_status()
         return r.json()

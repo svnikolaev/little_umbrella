@@ -1,9 +1,9 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 from json import JSONDecodeError
 from typing import Optional
 
-import requests
+from connectors.zeal_request import request_with_retries as request
 from requests import ConnectTimeout
 
 logger = logging.getLogger(__name__)
@@ -53,7 +53,7 @@ class Somiac:
             'User-Agent': self.user_agent,
             # 'Content-Type': 'application/x-www-form-urlencoded'
         }
-        r = requests.request('GET', url, headers=headers)
+        r = request('GET', url, headers=headers)
         r.raise_for_status()
         covid_calls_statistic = r.json()
         covid_calls_statistic.update(date=date)
