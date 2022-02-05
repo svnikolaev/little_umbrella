@@ -63,6 +63,7 @@ positional arguments:
 options:
   -h, --help       show this help message and exit
   -v, --verbose    be verbose
+  -j, --json       use json format for logging
   -n, --nologfile  do not create a logfile
   -t, --test       use testing config
 
