@@ -137,6 +137,7 @@ dmypy.json
 # temporary files
 temp/
 temp_*
+.temp_*
 
 # utility scripts for developement
 *.cmd

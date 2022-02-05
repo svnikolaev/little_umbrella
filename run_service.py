@@ -33,6 +33,8 @@ def read_cli_arguments():
                         metavar='Service', type=str, nargs='?')
     parser.add_argument('-v', '--verbose', help='be verbose',
                         action='store_true', dest='verbose')
+    parser.add_argument('-j', '--json', help='use json format for logging',
+                        action='store_true', dest='json')
     parser.add_argument('-n', '--nologfile', help='do not create a logfile',
                         action='store_true', dest='nologfile')
     parser.add_argument('-t', '--test', help='use testing config',
@@ -67,7 +69,10 @@ def main():
               + '\n  '.join(sorted(modules)) + '\n')
         return
 
-    init_logger(args.service, verbose=args.verbose, nologfile=args.nologfile)
+    init_logger(args.service,
+                verbose=args.verbose,
+                json=args.json,
+                nologfile=args.nologfile)
     dt_start = datetime.now()
     logger.debug(f'START at {dt_start}')
     logger.debug(f'comandline arguments: {args}')
@@ -77,6 +82,7 @@ def main():
     except Exception:
         logger.error(
             f'uncaught exception:\n{traceback.format_exc()}'.replace('"', '\'')
+            .replace('\n', '\\n')  # for oneline log format
         )
 
     logger.debug(f'END at {datetime.now()}, '
