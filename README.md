@@ -90,20 +90,21 @@ ts=2022-01-21T23:32:22 level=INFO msg="service services.hello_land.service logge
 ```sh
 $ python .\run_service.py hello_world
 ts=2022-01-21T23:30:47 level=INFO msg="service services.hello_world.service logger.info testing: CONNECTOR TEST STRING"
-ts=2022-01-21T23:30:47 level=ERROR msg="uncaught exception:
-Traceback (most recent call last):
-  File 'D:\dev\cit.sakhalin\osa\launch_with_params\run_service.py', line 76, in main
-    service_runner(args.service, args.testing or False)
-  File 'D:\dev\cit.sakhalin\osa\launch_with_params\run_service.py', line 27, in service_runner
-    module.main(config)
-  File 'D:\dev\cit.sakhalin\osa\launch_with_params\services\hello_world\service.py', line 18, in main
-    a = 10 / 0  # intentional error FOR TESTING purpose
-ZeroDivisionError: division by zero
-"
+ts=2022-01-21T23:30:47 level=ERROR msg="uncaught exception:\nTraceback (most recent call last):\n  File '/usr/src/app/run_service.py', line 81, in main\n    service_runner(args.service, args.testing or False)\n  File '/usr/src/app/run_service.py', line 27, in service_runner\n    module.main(config)\n  File '/usr/src/app/services/hello_world/service.py', line 18, in main\n    a = 10 / 0  # intentional error FOR TESTING purpose\nZeroDivisionError: division by zero\n"
 ```
 
-## Запуск с помощью Docker
+## Docker
+
+### Подготовка образа
+
+Необходимо подготовить образ с зависимостями из requirements.txt
 
 ```sh
-docker run -it --rm --name run_service -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3.10.2-slim-buster python run_service.py a_check_geois_health
+docker build --build-arg userid=$(id $USER -u) --build-arg groupid=$(id $USER -g) -t pythonimp .
+```
+
+### Запуск с помощью Docker
+
+```sh
+docker run -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v "$PWD":/usr/src/app pythonimp python run_service.py hello_land
 ```
