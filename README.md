@@ -106,5 +106,5 @@ docker build --build-arg userid=$(id $USER -u) --build-arg groupid=$(id $USER -g
 ### Запуск с помощью Docker
 
 ```sh
-docker run -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v "$PWD":/usr/src/app pythonimp python run_service.py hello_land
+docker run --rm -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v "$PWD":/usr/src/app pythonimp python run_service.py hello_land
 ```
