@@ -65,6 +65,7 @@ def init_logger(name, verbose=False, json=False, nologfile=False):
                         'level': 'DEBUG',
                         'formatter': 'logfmt',
                         'backupCount': 2,
+                        'encoding': 'UTF-8',
                         'filename': f'{get_logfile_path(name)}.{file_ext}'}
         LOGGING_CONFIG['handlers'].update(logfile=logfile_conf)
         root_handlers.append('logfile')
