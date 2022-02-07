@@ -1,7 +1,7 @@
 # Мини-фреймворк для задач автоматизации и логирования результатов
 
 Разработать мини-фреймворк для запуска скриптов автоматизации, в том числе задач ETL между разными сервисами.
-В процессе необходимо формировать лаконичные логи, их забирает сервис мониторинга, например в стеке Grafana – Loki - Promtail. В результате заинтересованные лица должны увидеть, успешно сработал скрипт или возникла проблема.
+В процессе необходимо формировать лаконичные логи, их забирает сервис мониторинга, например, в стеке Grafana – Loki - Promtail. В результате заинтересованные лица должны увидеть, успешно сработал скрипт или возникла проблема.
 Скрипты запускаются с сервера по крону, либо вручную из консоли.
 
 ## Структура проекта
@@ -11,7 +11,7 @@
 └── project_tasks/ - корень проекта
     |
     ├── run_service.py - модуль запуска задач
-    ├── app_logger.py - модуль конфигурирования логера
+    ├── app_logger.py - модуль конфигурирования логгера
     ├── utils.py - модуль со вспомогательными алгоритмами
     ├── logs/ - локальная папка с логами
     │
@@ -93,6 +93,10 @@ ts=2022-01-21T23:30:47 level=INFO msg="service services.hello_world.service logg
 ts=2022-01-21T23:30:47 level=ERROR msg="uncaught exception:\nTraceback (most recent call last):\n  File '/usr/src/app/run_service.py', line 81, in main\n    service_runner(args.service, args.testing or False)\n  File '/usr/src/app/run_service.py', line 27, in service_runner\n    module.main(config)\n  File '/usr/src/app/services/hello_world/service.py', line 18, in main\n    a = 10 / 0  # intentional error FOR TESTING purpose\nZeroDivisionError: division by zero\n"
 ```
 
+## Требования
+
+Для запуска необходим Python 3.9 и выше, чтобы обойти этот момент возможно запускать задачи через [Docker](##Docker)
+
 ## Docker
 
 ### Подготовка образа
@@ -108,3 +112,7 @@ docker build --build-arg userid=$(id $USER -u) --build-arg groupid=$(id $USER -g
 ```sh
 docker run --rm -v /etc/timezone:/etc/timezone:ro -v /etc/localtime:/etc/localtime:ro -v "$PWD":/usr/src/app pythonimp python run_service.py hello_land
 ```
+
+## Тестирование
+
+Запуск тестов осуществляется по команде `python -m unittest`
